@@ -11,6 +11,7 @@ namespace Ticketing.Data
         }
 
         public DbSet<Evento> Eventos { get; set; }
+        public DbSet<Sector> Sectores { get; set; }
         public DbSet<Butaca> Butacas { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
         public DbSet<Auditoria> Auditorias { get; set; }
@@ -32,9 +33,32 @@ namespace Ticketing.Data
                 .IsRequired()
                 .HasMaxLength(150); // Validación básica adicional sugerida
 
+            // Sector
+            modelBuilder.Entity<Sector>()
+                .HasKey(s => s.Id);
+            
+            modelBuilder.Entity<Sector>()
+                .Property(s => s.Precio)
+                .HasColumnType("decimal(18,2)"); // Best practice para precios
+                
+            modelBuilder.Entity<Sector>()
+                .HasOne(s => s.Evento)
+                .WithMany()
+                .HasForeignKey(s => s.EventoId);
+
             // Butaca
             modelBuilder.Entity<Butaca>()
                 .HasKey(b => b.Id);
+
+            // CRÍTICO: Configuración del Token de Concurrencia
+            modelBuilder.Entity<Butaca>()
+                .Property(b => b.Version)
+                .IsConcurrencyToken();
+
+            modelBuilder.Entity<Butaca>()
+                .HasOne(b => b.Sector)
+                .WithMany()
+                .HasForeignKey(b => b.SectorId);
 
             // Reserva
             modelBuilder.Entity<Reserva>()
