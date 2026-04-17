@@ -1,0 +1,6 @@
+@ProyectoTicketing_Ingenieria_HostAddress = http://localhost:5085
+
+GET {{ProyectoTicketing_Ingenieria_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
