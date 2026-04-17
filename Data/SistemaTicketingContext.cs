@@ -11,9 +11,11 @@ namespace Ticketing.Data
         }
 
         public DbSet<Evento> Eventos { get; set; }
+        public DbSet<Sector> Sectores { get; set; }
         public DbSet<Butaca> Butacas { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
-        public DbSet<AuditoriaReserva> AuditoriasReservas { get; set; }
+        public DbSet<Auditoria> Auditorias { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -31,17 +33,54 @@ namespace Ticketing.Data
                 .IsRequired()
                 .HasMaxLength(150); // Validación básica adicional sugerida
 
+            // Sector
+            modelBuilder.Entity<Sector>()
+                .HasKey(s => s.Id);
+            
+            modelBuilder.Entity<Sector>()
+                .Property(s => s.Precio)
+                .HasColumnType("decimal(18,2)"); // Best practice para precios
+                
+            modelBuilder.Entity<Sector>()
+                .HasOne(s => s.Evento)
+                .WithMany()
+                .HasForeignKey(s => s.EventoId);
+
             // Butaca
             modelBuilder.Entity<Butaca>()
                 .HasKey(b => b.Id);
+
+            // CRÍTICO: Configuración del Token de Concurrencia
+            modelBuilder.Entity<Butaca>()
+                .Property(b => b.Version)
+                .IsConcurrencyToken();
+
+            modelBuilder.Entity<Butaca>()
+                .HasOne(b => b.Sector)
+                .WithMany()
+                .HasForeignKey(b => b.SectorId);
 
             // Reserva
             modelBuilder.Entity<Reserva>()
                 .HasKey(r => r.Id);
 
-            // AuditoriaReserva
-            modelBuilder.Entity<AuditoriaReserva>()
+            // Auditoria
+            modelBuilder.Entity<Auditoria>()
                 .HasKey(a => a.Id);
+
+            // Precisión de milisegundos para FechaHora (3 decimales de segundo)
+            modelBuilder.Entity<Auditoria>()
+                .Property(a => a.FechaHora)
+                .HasPrecision(3);
+
+            // Usuario
+            modelBuilder.Entity<Usuario>()
+                .HasKey(u => u.Id);
+            
+            modelBuilder.Entity<Usuario>()
+                .Property(u => u.GoogleSubjectId)
+                .IsRequired()
+                .HasMaxLength(255);
                 
             // (Opcional) Definir relaciones explícitamente.
             // Aunque por convención EF Core ya las entendería por las propiedades de navegación,
@@ -51,10 +90,10 @@ namespace Ticketing.Data
                 .WithMany()
                 .HasForeignKey(r => r.ButacaId);
 
-            modelBuilder.Entity<AuditoriaReserva>()
-                .HasOne(a => a.Butaca)
+            modelBuilder.Entity<Reserva>()
+                .HasOne(r => r.Usuario)
                 .WithMany()
-                .HasForeignKey(a => a.ButacaId);
+                .HasForeignKey(r => r.UsuarioId);
         }
     }
 }
