@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ProyectoTicketing-Ingenieria")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+87db9718c826d35488724d82c4bb74d4975c6c6a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+af472f32b320494f855e84b344c881eb6b3f676b")]
 [assembly: System.Reflection.AssemblyProductAttribute("ProyectoTicketing-Ingenieria")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ProyectoTicketing-Ingenieria")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
