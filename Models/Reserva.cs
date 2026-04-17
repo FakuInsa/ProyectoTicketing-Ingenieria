@@ -12,5 +12,9 @@ namespace Ticketing.Models
         
         public DateTime FechaCreacion { get; set; }
         public DateTime Expiracion { get; set; }
+
+        public int UsuarioId { get; set; }
+        public virtual Usuario Usuario { get; set; } = null!;
+
     }
 }

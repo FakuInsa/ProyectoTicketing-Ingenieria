@@ -14,6 +14,7 @@ namespace Ticketing.Data
         public DbSet<Butaca> Butacas { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
         public DbSet<AuditoriaReserva> AuditoriasReservas { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +43,15 @@ namespace Ticketing.Data
             // AuditoriaReserva
             modelBuilder.Entity<AuditoriaReserva>()
                 .HasKey(a => a.Id);
+
+            // Usuario
+            modelBuilder.Entity<Usuario>()
+                .HasKey(u => u.Id);
+            
+            modelBuilder.Entity<Usuario>()
+                .Property(u => u.GoogleSubjectId)
+                .IsRequired()
+                .HasMaxLength(255);
                 
             // (Opcional) Definir relaciones explícitamente.
             // Aunque por convención EF Core ya las entendería por las propiedades de navegación,
@@ -50,6 +60,11 @@ namespace Ticketing.Data
                 .HasOne(r => r.Butaca)
                 .WithMany()
                 .HasForeignKey(r => r.ButacaId);
+
+            modelBuilder.Entity<Reserva>()
+                .HasOne(r => r.Usuario)
+                .WithMany()
+                .HasForeignKey(r => r.UsuarioId);
 
             modelBuilder.Entity<AuditoriaReserva>()
                 .HasOne(a => a.Butaca)

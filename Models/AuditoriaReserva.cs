@@ -10,9 +10,8 @@ namespace Ticketing.Models
         // Propiedad de navegación sugerida por Entity Framework Core
         public Butaca? Butaca { get; set; }
         
-        // Generalmente en .NET Identity los IDs de usuario son strings (Guid o varchar), 
-        // pero puedes cambiarlo a int si tu tabla de usuarios usa int.
-        public string UsuarioId { get; set; } = string.Empty;
+        // Referencia al ID real del usuario
+        public int UsuarioId { get; set; }
         
         public string Accion { get; set; } = string.Empty;
         
