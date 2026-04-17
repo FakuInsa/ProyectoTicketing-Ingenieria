@@ -16,5 +16,8 @@ namespace Ticketing.Models
         public int UsuarioId { get; set; }
         public virtual Usuario Usuario { get; set; } = null!;
 
+        // Estado de la reserva ('Pending', 'Paid', 'Expired')
+        public string Estado { get; set; } = "Pending";
+
     }
 }
