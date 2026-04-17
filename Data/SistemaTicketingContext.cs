@@ -13,7 +13,7 @@ namespace Ticketing.Data
         public DbSet<Evento> Eventos { get; set; }
         public DbSet<Butaca> Butacas { get; set; }
         public DbSet<Reserva> Reservas { get; set; }
-        public DbSet<AuditoriaReserva> AuditoriasReservas { get; set; }
+        public DbSet<Auditoria> Auditorias { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -40,9 +40,14 @@ namespace Ticketing.Data
             modelBuilder.Entity<Reserva>()
                 .HasKey(r => r.Id);
 
-            // AuditoriaReserva
-            modelBuilder.Entity<AuditoriaReserva>()
+            // Auditoria
+            modelBuilder.Entity<Auditoria>()
                 .HasKey(a => a.Id);
+
+            // Precisión de milisegundos para FechaHora (3 decimales de segundo)
+            modelBuilder.Entity<Auditoria>()
+                .Property(a => a.FechaHora)
+                .HasPrecision(3);
 
             // Usuario
             modelBuilder.Entity<Usuario>()
@@ -65,11 +70,6 @@ namespace Ticketing.Data
                 .HasOne(r => r.Usuario)
                 .WithMany()
                 .HasForeignKey(r => r.UsuarioId);
-
-            modelBuilder.Entity<AuditoriaReserva>()
-                .HasOne(a => a.Butaca)
-                .WithMany()
-                .HasForeignKey(a => a.ButacaId);
         }
     }
 }
