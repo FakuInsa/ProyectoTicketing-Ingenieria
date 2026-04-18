@@ -73,6 +73,11 @@ namespace Ticketing.Data
                 .Property(a => a.FechaHora)
                 .HasPrecision(3);
 
+            // Configurar Detalle como JSONB en Postgres
+            modelBuilder.Entity<Auditoria>()
+                .Property(a => a.Detalle)
+                .HasColumnType("jsonb");
+
             // Usuario
             modelBuilder.Entity<Usuario>()
                 .HasKey(u => u.Id);
