@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace ProyectoTicketing_Ingenieria.Migrations
 {
     /// <inheritdoc />
-    public partial class ModeloInicialTicketing : Migration
+    public partial class InitialCreatePostgres : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,14 +16,14 @@ namespace ProyectoTicketing_Ingenieria.Migrations
                 name: "Auditorias",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    UsuarioId = table.Column<int>(type: "INTEGER", nullable: true),
-                    Accion = table.Column<string>(type: "TEXT", nullable: false),
-                    RecursoAfectado = table.Column<string>(type: "TEXT", nullable: false),
-                    RecursoId = table.Column<int>(type: "INTEGER", nullable: false),
-                    FechaHora = table.Column<DateTime>(type: "TEXT", precision: 3, nullable: false),
-                    Detalle = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UsuarioId = table.Column<int>(type: "integer", nullable: true),
+                    Accion = table.Column<string>(type: "text", nullable: false),
+                    RecursoAfectado = table.Column<string>(type: "text", nullable: false),
+                    RecursoId = table.Column<int>(type: "integer", nullable: false),
+                    FechaHora = table.Column<DateTime>(type: "timestamp(3) with time zone", precision: 3, nullable: false),
+                    Detalle = table.Column<string>(type: "jsonb", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,11 +34,11 @@ namespace ProyectoTicketing_Ingenieria.Migrations
                 name: "Eventos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(type: "TEXT", maxLength: 150, nullable: false),
-                    Fecha = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Lugar = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Nombre = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    Fecha = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Lugar = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,11 +49,11 @@ namespace ProyectoTicketing_Ingenieria.Migrations
                 name: "Usuarios",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    GoogleSubjectId = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
-                    Nombre = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    GoogleSubjectId = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    Email = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -63,12 +64,12 @@ namespace ProyectoTicketing_Ingenieria.Migrations
                 name: "Sectores",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    EventoId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Nombre = table.Column<string>(type: "TEXT", nullable: false),
-                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Capacidad = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    EventoId = table.Column<int>(type: "integer", nullable: false),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    Precio = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    Capacidad = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -85,14 +86,14 @@ namespace ProyectoTicketing_Ingenieria.Migrations
                 name: "Butacas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    SectorId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Fila = table.Column<string>(type: "TEXT", nullable: false),
-                    NumeroAsiento = table.Column<int>(type: "INTEGER", nullable: false),
-                    Version = table.Column<int>(type: "INTEGER", nullable: false),
-                    Estado = table.Column<int>(type: "INTEGER", nullable: false),
-                    FechaBloqueo = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    SectorId = table.Column<int>(type: "integer", nullable: false),
+                    Fila = table.Column<string>(type: "text", nullable: false),
+                    NumeroAsiento = table.Column<int>(type: "integer", nullable: false),
+                    Version = table.Column<int>(type: "integer", nullable: false),
+                    Estado = table.Column<int>(type: "integer", nullable: false),
+                    FechaBloqueo = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,13 +110,13 @@ namespace ProyectoTicketing_Ingenieria.Migrations
                 name: "Reservas",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ButacaId = table.Column<int>(type: "INTEGER", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Expiracion = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UsuarioId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Estado = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ButacaId = table.Column<int>(type: "integer", nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Expiracion = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UsuarioId = table.Column<int>(type: "integer", nullable: false),
+                    Estado = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
